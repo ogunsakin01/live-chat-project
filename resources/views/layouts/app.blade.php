@@ -37,15 +37,25 @@
             overflow-y : scroll;
             height : 350px;
         }
+        ::-webkit-scrollbar {
+             width: 2%;
+             max-width : 3px;
+             height: 3%;
+             max-height : 5px;
+         }
 
-        ::-webkit-scrollbar{
-            width: 12px;
-            background-color : #F5F5F5;
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 2px grey;
+            border-radius: 5px;
         }
 
-        ::-webkit-scrollbar-thumb{
-            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-            background-color : #555;
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb :hover {
+            background: #000;
         }
     </style>
 </head>

@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -9,6 +8,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vue from 'vue'
+import moment from 'moment'
+import VueChatScroll from 'vue-chat-scroll'
+
+
+Vue.use(VueChatScroll)
+Vue.prototype.moment = moment
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -22,7 +28,6 @@ window.Vue = require('vue');
 
 import ChatForm from './components/ChatForm.vue';
 import ChatMessages from './components/ChatMessages.vue';
-
 
 
 /**
@@ -39,34 +44,53 @@ const app = new Vue({
     },
 
     data: {
-        messages : []
+        messages: [],
+        typing_message : {
+            user : '',
+            status : 0
+        }
     },
 
-    created(){
+    created() {
         this.fetchMessages();
         Echo.private('chat')
-            .listen('MessageSent',(e) => {
-                console.log(e.message.message);
-            this.messages.push({
-               message: e.message.message,
-               user : e.user
-            });
-        })
+            .listen('MessageSent', (e) => {
+                this.messages.push({
+                    message: e.message.message,
+                    user: e.user
+                });
+            })
+            .listen('Typing',(e) => {
+                this.typing_message.user = e.user
+                this.typing_message.status = e.status
+            })
     },
 
     methods: {
-        fetchMessages(){
+        fetchMessages() {
             axios.get('/messages')
                 .then((response) => {
                     this.messages = response.data;
                 })
         },
-        addMessage(message){
+
+        addMessage(message) {
             this.messages.push(message)
             axios.post('/messages', message)
                 .then((response) => {
                     console.log(response.data)
                 })
+        },
+
+        typing(status){
+            console.log(status);
+            axios.post('/typing',{
+                status : status
+            })
+                .then((response)=>{
+                    console.log(response.data)
+                });
         }
+
     }
 });
