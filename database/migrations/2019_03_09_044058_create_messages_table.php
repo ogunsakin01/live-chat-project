@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration
             $table->bigIncrements("id");
             $table->integer("user_id")->unsigned();
             $table->text("message");
-            $table->text("recipient_id");
+            $table->integer("recipient_id")->nullable();
             $table->integer("deliver_status")->default(0);
             $table->integer("read_status")->default(0);
             $table->integer("delete_status")->default(0);
