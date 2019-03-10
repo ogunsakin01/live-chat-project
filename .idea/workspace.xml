@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c38cfa3-17b7-4457-96b5-225cc0252bfa" name="Default Changelist" comment="" />
+    <list default="true" id="4c38cfa3-17b7-4457-96b5-225cc0252bfa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +55,7 @@
           <entry key="js" value="1811" />
           <entry key="json" value="5" />
           <entry key="md" value="1911" />
-          <entry key="php" value="3660" />
+          <entry key="php" value="3664" />
           <entry key="vue" value="1813" />
         </counts>
       </usages-collector>
@@ -64,7 +66,7 @@
           <entry key="JSON" value="5" />
           <entry key="JavaScript" value="1812" />
           <entry key="Markdown" value="1911" />
-          <entry key="PHP" value="2706" />
+          <entry key="PHP" value="2710" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="Vue.js" value="1813" />
         </counts>
@@ -94,8 +96,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config/app.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+            <state relative-caret-position="161">
+              <caret line="39" column="6" lean-forward="true" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -301,12 +303,12 @@
       <updated>1552103764829</updated>
       <workItem from="1552103766957" duration="11039000" />
       <workItem from="1552134522595" duration="5951000" />
-      <workItem from="1552149360155" duration="15561000" />
+      <workItem from="1552149360155" duration="16215000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32551000" />
+    <option name="totallyTimeSpent" value="33205000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -551,8 +553,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+        <state relative-caret-position="161">
+          <caret line="39" column="6" lean-forward="true" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
         </state>
       </provider>
     </entry>
