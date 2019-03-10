@@ -28,7 +28,7 @@
           <entry key="gitattributes" value="2" />
           <entry key="gitignore" value="2" />
           <entry key="js" value="4" />
-          <entry key="json" value="1" />
+          <entry key="json" value="2" />
           <entry key="md" value="2" />
           <entry key="php" value="29" />
           <entry key="vue" value="5" />
@@ -38,7 +38,7 @@
         <counts>
           <entry key=".env file" value="3" />
           <entry key="Blade" value="6" />
-          <entry key="JSON" value="1" />
+          <entry key="JSON" value="2" />
           <entry key="JavaScript" value="4" />
           <entry key="Markdown" value="2" />
           <entry key="PHP" value="23" />
@@ -51,6 +51,7 @@
           <entry key="dummy" value="1" />
           <entry key="env" value="19" />
           <entry key="js" value="1811" />
+          <entry key="json" value="2" />
           <entry key="md" value="1911" />
           <entry key="php" value="3470" />
           <entry key="vue" value="1813" />
@@ -60,6 +61,7 @@
         <counts>
           <entry key=".env file" value="19" />
           <entry key="Blade" value="953" />
+          <entry key="JSON" value="2" />
           <entry key="JavaScript" value="1812" />
           <entry key="Markdown" value="1911" />
           <entry key="PHP" value="2516" />
@@ -76,11 +78,20 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
               <caret line="2" column="8" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/composer.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="505">
+              <caret line="64" column="34" lean-forward="true" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -121,6 +132,7 @@
         <option value="$PROJECT_DIR$/resources/js/components/ChatForm.vue" />
         <option value="$PROJECT_DIR$/resources/js/app.js" />
         <option value="$PROJECT_DIR$/resources/js/components/ChatMessages.vue" />
+        <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
   </component>
@@ -278,12 +290,12 @@
       <updated>1552103764829</updated>
       <workItem from="1552103766957" duration="11039000" />
       <workItem from="1552134522595" duration="5951000" />
-      <workItem from="1552149360155" duration="13549000" />
+      <workItem from="1552149360155" duration="13791000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30539000" />
+    <option name="totallyTimeSpent" value="30781000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -512,6 +524,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="8" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="64" column="34" lean-forward="true" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
         </state>
       </provider>
     </entry>
