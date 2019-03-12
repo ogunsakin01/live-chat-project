@@ -44,9 +44,5 @@ class ChatsController extends Controller
         endif;
     }
 
-    public function typing(Request $r){
-        $user = Auth::user();
-        broadcast(new Typing($user, $r->status))->toOthers();
-    }
 
 }

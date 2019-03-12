@@ -1791,11 +1791,14 @@ __webpack_require__.r(__webpack_exports__);
         user: this.user,
         message: this.newMessage
       });
+      this.typing(0);
       this.newMessage = '';
     },
     typing: function typing(status) {
       this.$emit('typing', {
-        status: status
+        user: this.user,
+        status: status,
+        message: this.newMessage
       });
     }
   }
@@ -1833,6 +1836,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1841,8 +1847,21 @@ __webpack_require__.r(__webpack_exports__);
   props: ['messages', 'typing'],
   computed: {
     isTyping: function isTyping() {
-      return this.typing.status.status === 1;
+      return this.typing.status === 1;
     }
+  },
+  mounted: function mounted() {
+    this.scrollToEnd();
+  },
+  methods: {
+    scrollToEnd: function scrollToEnd() {
+      var container = document.querySelector('#chat_messages');
+      var scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
+    }
+  },
+  updated: function updated() {
+    this.scrollToEnd();
   }
 });
 
@@ -1871,7 +1890,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user']
+  props: ['user', 'message']
 });
 
 /***/ }),
@@ -64657,82 +64676,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-(function (global, factory) {
-	 true ? module.exports = factory() :
-	undefined;
-}(this, (function () { 'use strict';
-
-/**
-* @name VueJS vChatScroll (vue-chat-scroll)
-* @description Monitors an element and scrolls to the bottom if a new child is added
-* @author Theodore Messinezis <theo@theomessin.com>
-* @file v-chat-scroll  directive definition
-*/
-
-var scrollToBottom = function scrollToBottom(el, smooth) {
-  if (typeof el.scroll === "function") {
-    el.scroll({
-      top: el.scrollHeight,
-      behavior: smooth ? 'smooth' : 'instant'
-    });
-  } else {
-    el.scrollTop = el.scrollHeight;
-  }
-};
-
-var vChatScroll = {
-  bind: function bind(el, binding) {
-    var scrolled = false;
-
-    el.addEventListener('scroll', function (e) {
-      scrolled = el.scrollTop + el.clientHeight + 1 < el.scrollHeight;
-    });
-
-    new MutationObserver(function (e) {
-      var config = binding.value || {};
-      var pause = config.always === false && scrolled;
-      if (config.scrollonremoved) {
-        if (pause || e[e.length - 1].addedNodes.length != 1 && e[e.length - 1].removedNodes.length != 1) return;
-      } else {
-        if (pause || e[e.length - 1].addedNodes.length != 1) return;
-      }
-      scrollToBottom(el, config.smooth);
-    }).observe(el, { childList: true, subtree: true });
-  },
-  inserted: scrollToBottom
-};
-
-/**
-* @name VueJS vChatScroll (vue-chat-scroll)
-* @description Monitors an element and scrolls to the bottom if a new child is added
-* @author Theodore Messinezis <theo@theomessin.com>
-* @file vue-chat-scroll plugin definition
-*/
-
-var VueChatScroll = {
-  install: function install(Vue, options) {
-    Vue.directive('chat-scroll', vChatScroll);
-  }
-};
-
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(VueChatScroll);
-}
-
-return VueChatScroll;
-
-})));
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChatForm.vue?vue&type=template&id=6fb73fa7&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChatForm.vue?vue&type=template&id=6fb73fa7&scoped=true& ***!
@@ -64828,52 +64771,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    {
-      directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
-      staticClass: "chat"
-    },
-    [
-      _vm._l(_vm.messages, function(message) {
-        return _c("li", { staticClass: "left clearfix" }, [
-          _c("div", { staticClass: "chat-body clearfix" }, [
-            _c("div", { staticClass: "header" }, [
-              _c("strong", { staticClass: "primary-font pull-left" }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(message.user.name) +
-                    "\n                "
-                )
+  return _c("div", { attrs: { id: "chat_messages" } }, [
+    _c(
+      "ul",
+      { staticClass: "chat" },
+      [
+        _vm._l(_vm.messages, function(message) {
+          return _c("li", { staticClass: "left clearfix" }, [
+            _c("div", { staticClass: "chat-body clearfix" }, [
+              _c("div", { staticClass: "header" }, [
+                _c("strong", { staticClass: "primary-font pull-left" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(message.user.name) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("small", { staticClass: "pull-right" }, [
+                  _vm._v(
+                    _vm._s(
+                      _vm
+                        .moment(message.created_at)
+                        .format("MMM Do YYYY, h:mm a")
+                    )
+                  )
+                ])
               ]),
               _vm._v(" "),
-              _c("small", { staticClass: "pull-right" }, [
+              _c("p", [
                 _vm._v(
-                  _vm._s(
-                    _vm.moment(message.created_at).format("MMM Do YYYY, h:mm a")
-                  )
-                )
+                  "\n                    " +
+                    _vm._s(message.message) +
+                    "\n                    "
+                ),
+                _c("i", { staticClass: "fa fa-delete" })
               ])
-            ]),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                "\n                " +
-                  _vm._s(message.message) +
-                  "\n                "
-              ),
-              _c("i", { staticClass: "fa fa-delete" })
             ])
           ])
-        ])
-      }),
-      _vm._v(" "),
-      _vm.isTyping
-        ? _c("typing-message", { attrs: { user: _vm.typing.user } })
-        : _vm._e()
-    ],
-    2
-  )
+        }),
+        _vm._v(" "),
+        _vm.isTyping
+          ? _c("typing-message", {
+              attrs: { user: _vm.typing.user, message: _vm.typing.message }
+            })
+          : _vm._e()
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64907,7 +64853,11 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("i", [_vm._v(" Typing message ... ")])
+      _c("i", [
+        _vm._v(" is typing >>> "),
+        _c("small", [_c("b", [_vm._v(_vm._s(_vm.message))])]),
+        _vm._v(" ...")
+      ])
     ])
   ])
 }
@@ -77035,10 +76985,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_chat_scroll__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-chat-scroll */ "./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js");
-/* harmony import */ var vue_chat_scroll__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_chat_scroll__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_ChatForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ChatForm.vue */ "./resources/js/components/ChatForm.vue");
-/* harmony import */ var _components_ChatMessages_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ChatMessages.vue */ "./resources/js/components/ChatMessages.vue");
+/* harmony import */ var _components_ChatForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ChatForm.vue */ "./resources/js/components/ChatForm.vue");
+/* harmony import */ var _components_ChatMessages_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ChatMessages.vue */ "./resources/js/components/ChatMessages.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -77049,8 +76997,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
 
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_chat_scroll__WEBPACK_IMPORTED_MODULE_2___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.moment = moment__WEBPACK_IMPORTED_MODULE_1___default.a;
 /**
  * The following block of code may be used to automatically register your
@@ -77073,14 +77019,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.moment = moment__WEBPACK_IM
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
-    ChatForm: _components_ChatForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ChatMessages: _components_ChatMessages_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    ChatForm: _components_ChatForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ChatMessages: _components_ChatMessages_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: {
     messages: [],
     typing_message: {
       user: '',
-      status: 0
+      status: 0,
+      message: ''
     }
   },
   created: function created() {
@@ -77092,9 +77039,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         message: e.message.message,
         user: e.user
       });
-    }).listen('Typing', function (e) {
-      _this.typing_message.user = e.user;
-      _this.typing_message.status = e.status;
+    }).listenForWhisper('typing', function (e) {
+      _this.typing_message.user = e.status.user;
+      _this.typing_message.status = e.status.status;
+      _this.typing_message.message = e.status.message;
     });
   },
   methods: {
@@ -77107,16 +77055,11 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     },
     addMessage: function addMessage(message) {
       this.messages.push(message);
-      axios.post('/messages', message).then(function (response) {
-        console.log(response.data);
-      });
+      axios.post('/messages', message).then(function (response) {});
     },
     typing: function typing(status) {
-      console.log(status);
-      axios.post('/typing', {
+      Echo.private('chat').whisper('typing', {
         status: status
-      }).then(function (response) {
-        console.log(response.data);
       });
     }
   }
@@ -77260,14 +77203,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************************!*\
   !*** ./resources/js/components/ChatMessages.vue ***!
   \**************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChatMessages_vue_vue_type_template_id_e422daa2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChatMessages.vue?vue&type=template&id=e422daa2&scoped=true& */ "./resources/js/components/ChatMessages.vue?vue&type=template&id=e422daa2&scoped=true&");
 /* harmony import */ var _ChatMessages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChatMessages.vue?vue&type=script&lang=js& */ "./resources/js/components/ChatMessages.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ChatMessages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ChatMessages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -77297,7 +77241,7 @@ component.options.__file = "resources/js/components/ChatMessages.vue"
 /*!***************************************************************************!*\
   !*** ./resources/js/components/ChatMessages.vue?vue&type=script&lang=js& ***!
   \***************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

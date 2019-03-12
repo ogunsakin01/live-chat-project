@@ -26,12 +26,14 @@
                     user: this.user,
                     message: this.newMessage
                 })
-
+                this.typing(0)
                 this.newMessage = ''
             },
             typing(status){
              this.$emit('typing',{
-                 status: status
+                 user: this.user,
+                 status: status,
+                 message : this.newMessage
              })
             },
         }

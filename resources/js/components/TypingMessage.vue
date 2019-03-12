@@ -6,14 +6,14 @@
                     {{ user.name }}
                 </strong>
             </div>
-            <i> Typing message ... </i>
+            <i> is typing >>> <small><b>{{ message }}</b></small> ...</i>
         </div>
     </li>
 </template>
 
 <script>
     export default {
-     props: ['user']
+     props: ['user','message']
     }
 </script>
 

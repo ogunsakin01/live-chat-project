@@ -17,12 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
   Route::group(['middleware' => 'auth'], function(){
+      Route::get('/', 'ChatsController@index')->name('home');
       Route::get('/home', 'ChatsController@index')->name('home');
-      Route::get('/', 'ChatsController@index');
+      Route::get('/chat','ChatsController@index');
       Route::get('/messages','ChatsController@fetchMessages');
       Route::post('/messages','ChatsController@sendMessage');
-      Route::post('/typing','ChatsController@typing');
   });
 

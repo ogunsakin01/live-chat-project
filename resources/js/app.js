@@ -10,10 +10,7 @@ window.Vue = require('vue');
 
 import Vue from 'vue'
 import moment from 'moment'
-import VueChatScroll from 'vue-chat-scroll'
 
-
-Vue.use(VueChatScroll)
 Vue.prototype.moment = moment
 /**
  * The following block of code may be used to automatically register your
@@ -47,7 +44,8 @@ const app = new Vue({
         messages: [],
         typing_message : {
             user : '',
-            status : 0
+            status : 0,
+            message : ''
         }
     },
 
@@ -60,9 +58,10 @@ const app = new Vue({
                     user: e.user
                 });
             })
-            .listen('Typing',(e) => {
-                this.typing_message.user = e.user
-                this.typing_message.status = e.status
+            .listenForWhisper('typing',(e) => {
+                this.typing_message.user = e.status.user
+                this.typing_message.status = e.status.status
+                this.typing_message.message = e.status.message
             })
     },
 
@@ -78,19 +77,16 @@ const app = new Vue({
             this.messages.push(message)
             axios.post('/messages', message)
                 .then((response) => {
-                    console.log(response.data)
+
                 })
         },
 
         typing(status){
-            console.log(status);
-            axios.post('/typing',{
-                status : status
-            })
-                .then((response)=>{
-                    console.log(response.data)
+            Echo.private('chat')
+                .whisper('typing',{
+                    status : status
                 });
-        }
+        },
+    },
 
-    }
 });
