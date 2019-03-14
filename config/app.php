@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'UniQue Live Chat'),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY','base64:xvjCEcUFRGvSwSBRhmrHTzbUH/i4TzYaYK7ieTNoRgs='),
 
     'cipher' => 'AES-256-CBC',
 
