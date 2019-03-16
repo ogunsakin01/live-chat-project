@@ -6,12 +6,17 @@
 
 require('./bootstrap');
 
+
 window.Vue = require('vue');
 
 import Vue from 'vue'
 import moment from 'moment'
+import VueChatScroll from 'vue-chat-scroll'
+import VueResource from 'vue-resource'
 
 Vue.prototype.moment = moment
+Vue.use(VueChatScroll)
+Vue.use(VueResource)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -23,8 +28,7 @@ Vue.prototype.moment = moment
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-import ChatForm from './components/ChatForm.vue';
-import ChatMessages from './components/ChatMessages.vue';
+import MainComponent from './components/MainComponent.vue';
 
 
 /**
@@ -37,56 +41,8 @@ const app = new Vue({
     el: '#app',
 
     components: {
-        ChatForm, ChatMessages
+        MainComponent
     },
 
-    data: {
-        messages: [],
-        typing_message : {
-            user : '',
-            status : 0,
-            message : ''
-        }
-    },
-
-    created() {
-        this.fetchMessages();
-        Echo.private('chat')
-            .listen('MessageSent', (e) => {
-                this.messages.push({
-                    message: e.message.message,
-                    user: e.user
-                });
-            })
-            .listenForWhisper('typing',(e) => {
-                this.typing_message.user = e.status.user
-                this.typing_message.status = e.status.status
-                this.typing_message.message = e.status.message
-            })
-    },
-
-    methods: {
-        fetchMessages() {
-            axios.get('/messages')
-                .then((response) => {
-                    this.messages = response.data;
-                })
-        },
-
-        addMessage(message) {
-            this.messages.push(message)
-            axios.post('/messages', message)
-                .then((response) => {
-
-                })
-        },
-
-        typing(status){
-            Echo.private('chat')
-                .whisper('typing',{
-                    status : status
-                });
-        },
-    },
 
 });
