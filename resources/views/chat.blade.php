@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <main-component :user="{{  Auth::user()  }}"></main-component>
+    <main-component :users="this.$root.users" :user="{{  Auth::user()  }}"></main-component>
 @endsection
 
 <style>

@@ -39,10 +39,19 @@ import MainComponent from './components/MainComponent.vue';
 
 const app = new Vue({
     el: '#app',
-
+    data:{
+      users : []
+    },
+    created(){
+        Echo.join('online')
+            .here((users)=>{this.users = users})
+            .joining((user) => this.users.push(user))
+            .leaving((user) => this.users.filter(u => u,id !== user.id))
+    },
     components: {
         MainComponent
     },
+
 
 
 });

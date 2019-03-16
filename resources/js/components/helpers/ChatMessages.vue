@@ -5,7 +5,7 @@
                      @mouseover="shadow(1,key)" @mouseleave="shadow(0,key)" v-if="!message.status" style="width: auto;">
                     <p class="media-body mb-0 small text-gray-dark">
                 <span class="d-block">
-                   <b class="font-weight-bold" v-if="hideMyName(message.user.id)">{{ message.user.name }}</b>
+                   <b class="font-weight-bold" v-if="hideMyName(message.user.id)"><fa :class="'fa fa-circle ' + online(message.user.id)"></fa> {{ message.user.name }}</b>
                     <small class="font-italic">{{ moment(message.created_at).format('MMM Do YYYY, h:mm a') }}</small>
                 </span>
                         <span class="font-weight-normal">{{ message.message }} </span>
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        props: ['messages', 'user'],
+        props: ['messages', 'user', 'users'],
         methods: {
             shadow(status, key) {
                 $('.message_' + key).removeClass("shadow")
@@ -36,6 +36,15 @@
             hideMyName(id){
                 return id !== this.user.id
             },
+            online(id){
+                let status = "text-danger";
+                for(let i = 0; i < this.users.length; i++){
+                    if(this.users[i].id === id){
+                        status = "text-success";
+                    }
+                }
+                return status
+            }
         }
 
 

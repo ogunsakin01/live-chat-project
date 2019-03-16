@@ -1781,10 +1781,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ['user', 'users'],
   components: {
     ChatMessages: _components_helpers_ChatMessages_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ChatForm: _components_helpers_ChatForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -1916,7 +1917,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['messages', 'user'],
+  props: ['messages', 'user', 'users'],
   methods: {
     shadow: function shadow(status, key) {
       $('.message_' + key).removeClass("shadow");
@@ -1933,6 +1934,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideMyName: function hideMyName(id) {
       return id !== this.user.id;
+    },
+    online: function online(id) {
+      var status = "text-danger";
+
+      for (var i = 0; i < this.users.length; i++) {
+        if (this.users[i].id === id) {
+          status = "text-success";
+        }
+      }
+
+      return status;
     }
   }
 });
@@ -64825,9 +64837,13 @@ var render = function() {
           _c("div", { staticClass: "lh-100" }, [
             _vm._m(0),
             _vm._v(" "),
+            _c("p", { staticClass: "text-success" }, [
+              _vm._v(" " + _vm._s(_vm.users.length) + " online ")
+            ]),
+            _vm._v(" "),
             this.typing_message.status === 1
               ? _c("p", [
-                  _c("small", [
+                  _c("small", { staticClass: "text-light" }, [
                     _vm._v(
                       "@" +
                         _vm._s(this.typing_message.user.name) +
@@ -64845,7 +64861,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("chat-messages", {
-        attrs: { messages: _vm.messages, user: _vm.user }
+        attrs: { messages: _vm.messages, users: _vm.users, user: _vm.user }
       }),
       _vm._v(" "),
       _c(
@@ -64870,7 +64886,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h6", { staticClass: "mb-0 text-white lh-100" }, [
       _vm._v("All Users Chat Forum "),
-      _c("small", [_vm._v("Since 2019")])
+      _c("small", [_vm._v(" Since 2019 ")])
     ])
   }
 ]
@@ -65008,9 +65024,18 @@ var render = function() {
                   [
                     _c("span", { staticClass: "d-block" }, [
                       _vm.hideMyName(message.user.id)
-                        ? _c("b", { staticClass: "font-weight-bold" }, [
-                            _vm._v(_vm._s(message.user.name))
-                          ])
+                        ? _c(
+                            "b",
+                            { staticClass: "font-weight-bold" },
+                            [
+                              _c("fa", {
+                                class:
+                                  "fa fa-circle " + _vm.online(message.user.id)
+                              }),
+                              _vm._v(" " + _vm._s(message.user.name))
+                            ],
+                            1
+                          )
                         : _vm._e(),
                       _vm._v(" "),
                       _c("small", { staticClass: "font-italic" }, [
@@ -78771,6 +78796,22 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_resource__WEBPACK_IMPORTED_MO
 
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
+  data: {
+    users: []
+  },
+  created: function created() {
+    var _this = this;
+
+    Echo.join('online').here(function (users) {
+      _this.users = users;
+    }).joining(function (user) {
+      return _this.users.push(user);
+    }).leaving(function (user) {
+      return _this.users.filter(function (u) {
+        return u;
+      }, id !== user.id);
+    });
+  },
   components: {
     MainComponent: _components_MainComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
