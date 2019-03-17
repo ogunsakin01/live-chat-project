@@ -1857,25 +1857,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
     return {
-      newMessage: ''
+      newMessage: '',
+      error: {
+        status: false,
+        message: ''
+      }
     };
   },
   methods: {
     sendMessage: function sendMessage() {
-      if (this.newMessage == '') {
-        this.newMessage = "empty message";
+      if (this.validateMessage()) {
+        this.$emit('messagesent', {
+          user: this.user,
+          message: this.newMessage
+        });
+        this.typing(0);
+        this.newMessage = '';
       }
-
-      this.$emit('messagesent', {
-        user: this.user,
-        message: this.newMessage
-      });
-      this.typing(0);
-      this.newMessage = '';
     },
     typing: function typing(status) {
       this.$emit('typing', {
@@ -1883,6 +1892,20 @@ __webpack_require__.r(__webpack_exports__);
         status: status,
         message: this.newMessage
       });
+    },
+    validateMessage: function validateMessage() {
+      $('input[name="message"]').removeClass('border-danger');
+      this.error.status = false;
+      this.error.message = '';
+
+      if (this.newMessage === "") {
+        $('input[name="message"]').addClass('border-danger');
+        this.error.status = true;
+        this.error.message = " Don't be shy, tell us your mind ... ";
+        return false;
+      }
+
+      return true;
     }
   }
 });
@@ -64911,62 +64934,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "input-group" }, [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.newMessage,
-          expression: "newMessage"
-        }
-      ],
-      staticClass: "form-control input-sm",
-      attrs: {
-        id: "btn-input",
-        type: "text",
-        name: "message",
-        placeholder: "Type your message here..."
-      },
-      domProps: { value: _vm.newMessage },
-      on: {
-        input: [
-          function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.newMessage = $event.target.value
-          },
-          function($event) {
-            return _vm.typing(1)
+  return _c("div", [
+    _c("div", { staticClass: "input-group" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.newMessage,
+            expression: "newMessage"
           }
         ],
-        blur: function($event) {
-          return _vm.typing(0)
+        staticClass: "form-control input-sm",
+        attrs: {
+          id: "btn-input",
+          type: "text",
+          name: "message",
+          placeholder: "Type your message here..."
         },
-        keyup: function($event) {
-          if (
-            !$event.type.indexOf("key") &&
-            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-          ) {
-            return null
+        domProps: { value: _vm.newMessage },
+        on: {
+          input: [
+            function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.newMessage = $event.target.value
+            },
+            function($event) {
+              _vm.typing(1), _vm.validateMessage
+            }
+          ],
+          blur: function($event) {
+            return _vm.typing(0)
+          },
+          keyup: function($event) {
+            if (
+              !$event.type.indexOf("key") &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.sendMessage($event)
           }
-          return _vm.sendMessage($event)
         }
-      }
-    }),
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "input-group-btn" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-group btn-block",
+            attrs: { id: "btn-chat" },
+            on: { click: _vm.sendMessage }
+          },
+          [_vm._v("\n            Send\n        ")]
+        )
+      ])
+    ]),
     _vm._v(" "),
-    _c("span", { staticClass: "input-group-btn" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-group btn-block",
-          attrs: { id: "btn-chat" },
-          on: { click: _vm.sendMessage }
-        },
-        [_vm._v("\n            Send\n        ")]
-      )
-    ])
+    _vm.error.status
+      ? _c(
+          "span",
+          { staticClass: "text-danger font-italic font-weight-light" },
+          [_c("small", [_vm._v(_vm._s(_vm.error.message))])]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
